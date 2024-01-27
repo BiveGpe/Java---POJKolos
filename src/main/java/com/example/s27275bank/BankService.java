@@ -48,8 +48,22 @@ public class BankService {
         return clientStorage.getClient(clientId);
     }
 
-    public void depositMoney() {
+    public Client depositMoney(Integer clientId, Double amount) throws Exception {
+        if (!clientStorage.isClientExist(clientId)) {
+            throw new Exception("Client does not exist");
+        }
 
+        clientStorage.addToClientBalance(clientId, amount);
+        clientStorage.addTransferToClient(
+                clientId,
+                new Transfer(
+                        amount,
+                        TransferDirection.INCOMING,
+                        TransferStatus.ACCEPTED
+                )
+        );
+
+        return clientStorage.getClient(clientId);
     }
 
     public void getClientData() {

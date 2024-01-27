@@ -49,4 +49,24 @@ class BankServiceITest {
             assertThat(exception.getMessage()).isEqualTo("Not enough balance");
         }
     }
+
+    @Test
+    public void depositMoneySuccess() throws Exception {
+        Client client = this.bankService.createClient(500.0);
+
+        client = this.bankService.depositMoney(client.getId(), 150.0);
+
+        assertThat(client.getBalance()).isEqualTo(500.0 + 150.0);
+        assertThat(client.getTransfersHistory().toString()).isEqualTo("[Transfer{amount=150.0, transferDirection=INCOMING, transferStatus=ACCEPTED}]");
+    }
+
+    @Test
+    public void depositMoneyNoClient() {
+        try {
+            this.bankService.depositMoney(10, 150.0);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage()).isEqualTo("Client does not exist");
+        }
+    }
+
 }
