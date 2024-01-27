@@ -14,8 +14,39 @@ class BankServiceITest {
     @Test
     public void createClientSuccess() {
         Client client = this.bankService.createClient(123.0);
+        Client client2 = this.bankService.createClient(546.0);
 
-        System.out.println(client.getId());
         assertThat(client.getBalance()).isEqualTo(123.0);
+        assertThat(client2.getBalance()).isEqualTo(546.0);
+    }
+
+    @Test
+    public void makeTransferSuccess() throws Exception {
+        Client client = this.bankService.createClient(546.0);
+
+        client = this.bankService.makeTransfer(client.getId(), 150.0);
+
+        assertThat(client.getBalance()).isEqualTo(546.0 - 150.0);
+        assertThat(client.getTransfersHistory().toString()).isEqualTo("[Transfer{amount=150.0, transferDirection=OUTGOING, transferStatus=ACCEPTED}]");
+    }
+
+    @Test
+    public void makeTransferNoClient() {
+        try {
+            this.bankService.makeTransfer(10, 150.0);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage()).isEqualTo("Client does not exist");
+        }
+    }
+
+    @Test
+    public void makeTransferNoMoney() {
+        Client client = this.bankService.createClient(10.0);
+
+        try {
+            this.bankService.makeTransfer(client.getId(), 150.0);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage()).isEqualTo("Not enough balance");
+        }
     }
 }

@@ -38,4 +38,13 @@ public class Transfer {
     public void setTransferStatus(TransferStatus transferStatus) {
         this.transferStatus = transferStatus;
     }
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "amount=" + amount +
+                ", transferDirection=" + transferDirection +
+                ", transferStatus=" + transferStatus +
+                '}';
+    }
 }

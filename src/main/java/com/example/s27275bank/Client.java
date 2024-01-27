@@ -33,7 +33,5 @@ public class Client {
         return transfersHistory;
     }
 
-    public void setTransfersHistory(List<Transfer> transfersHistory) {
-        this.transfersHistory = transfersHistory;
-    }
+
 }

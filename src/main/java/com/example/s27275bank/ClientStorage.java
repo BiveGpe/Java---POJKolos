@@ -17,4 +17,31 @@ public class ClientStorage {
         clientMap.put(client.getId(), client);
     }
 
+    public Boolean isClientExist(Integer clientId) {
+        return clientMap.containsKey(clientId);
+    }
+
+    public Client getClient(Integer clientId) {
+        return clientMap.get(clientId);
+    }
+
+    public Double getClientBalance(Integer clientId) {
+        return clientMap.get(clientId).getBalance();
+    }
+
+    public void addTransferToClient(Integer clientId, Transfer transfer) {
+        clientMap.get(clientId).getTransfersHistory().add(transfer);
+    }
+
+    public void subtractFromClientBalance(Integer clientId, Double amount) {
+        Double oldBalance = clientMap.get(clientId).getBalance();
+
+        clientMap.get(clientId).setBalance(oldBalance - amount);
+    }
+
+    public void addToClientBalance(Integer clientId, Double amount) {
+        Double oldBalance = clientMap.get(clientId).getBalance();
+
+        clientMap.get(clientId).setBalance(oldBalance + amount);
+    }
 }
