@@ -69,4 +69,21 @@ class BankServiceITest {
         }
     }
 
+    @Test
+    public void getClientDataSuccess() throws Exception {
+        Client clientCreated = this.bankService.createClient(500.0);
+        Client client = this.bankService.getClientData(clientCreated.getId());
+
+        assertThat(clientCreated.getId()).isEqualTo(client.getId());
+        assertThat(clientCreated.getBalance()).isEqualTo(client.getBalance());
+    }
+
+    @Test
+    public void getClientDataNoClient() {
+        try {
+            this.bankService.getClientData(10);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage()).isEqualTo("Client does not exist");
+        }
+    }
 }

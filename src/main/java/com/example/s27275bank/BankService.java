@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BankService {
-    private ClientStorage clientStorage;
+    private final ClientStorage clientStorage;
 
     public BankService(ClientStorage clientStorage) {
         this.clientStorage = clientStorage;
@@ -66,8 +66,11 @@ public class BankService {
         return clientStorage.getClient(clientId);
     }
 
-    public void getClientData() {
+    public Client getClientData(Integer clientId) throws Exception {
+        if (!clientStorage.isClientExist(clientId)) {
+            throw new Exception("Client does not exist");
+        }
 
+        return clientStorage.getClient(clientId);
     }
-
 }
